@@ -18,6 +18,8 @@ jobs:
         dotnet-version: '7.0'
     - name: Publish
       run: dotnet publish -c Release -o release
+    - name: Set base
+      run: sed -i 's/<base href="\/"/<base href="\/BlazorPlayground\/"/g' release/wwwroot/index.html >> release/wwwroot/index.html
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v2.5.0
       env:
