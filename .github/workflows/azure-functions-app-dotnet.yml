@@ -20,6 +20,8 @@ jobs:
       run: dotnet publish -c Release -o release
     - name: Set base
       run: sed -i 's/<base href="\/"/<base href="\/BlazorPlayground\/"/g' release/wwwroot/index.html >> release/wwwroot/index.html
+    - name: No Jekyll
+      run: touch release/wwwroot/.nojekyll
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v2.5.0
       env:
