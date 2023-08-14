@@ -17,5 +17,16 @@ jobs:
       with:
         dotnet-version: '7.0'
     - name: Publish
-      run: dotnet publish -c Release
-    
+      run: dotnet publish -c Release -o release
+    - name: Set base
+      run: sed -i 's/<base href="\/"/<base href="\/BlazorPlayground\/"/g' release/wwwroot/index.html >> release/wwwroot/index.html
+    - name: No Jekyll
+      run: touch release/wwwroot/.nojekyll
+    - name: copy index.html to 404.html
+      run: cp release/wwwroot/index.html release/wwwroot/404.html
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v2.5.0
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        PUBLISH_BRANCH: gh-pages  # deploying branch
+        PUBLISH_DIR: ./release/wwwroot
